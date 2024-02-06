@@ -162,4 +162,4 @@ window.addEventListener("beforeunload", function(event) {
   if (quillLastChange.length() > 0) {
     return "Changes have not been saved yet. This will happen automatically in a moment. Are you sure you want to leave now and lose those changes?";
   }
-}
+});
