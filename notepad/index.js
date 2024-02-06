@@ -32,6 +32,7 @@ let lastContent;
 let lastSave;
 let tableId;
 
+var Delta = Quill.import('delta');
 var quillLastChange = new Delta();
 
 // Create a Quill editor with specified theme
