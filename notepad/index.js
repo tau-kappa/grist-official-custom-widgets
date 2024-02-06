@@ -32,9 +32,6 @@ let lastContent;
 let lastSave;
 let tableId;
 
-var Delta = Quill.import('delta');
-var quillLastChange = new Delta();
-
 // Create a Quill editor with specified theme
 function makeQuill(theme){
   var quillDiv = document.createElement('div');
@@ -53,9 +50,6 @@ function makeQuill(theme){
   });
 
   quill.on('text-change', () => textChanged.next(null));
-  quill.on('text-change', function(delta) {
-    quillLastChange = quillLastChange.compose(delta);
-  });
   if(lastContent){
     quill.setContents(safeParse(lastContent));
   }
@@ -144,8 +138,6 @@ saveEvent.subscribe(() => {
   if (lastSave) { return; }
   // If we are mapped.
   if (column && id) {
-    // Reset delta.
-    quillLastChange = new Delta();
     const content = quill.getContents();
     // Store content as json.
     const newContent = JSON.stringify(content);
@@ -159,8 +151,4 @@ saveEvent.subscribe(() => {
     }}).finally(() => lastSave = null);
   }
 });
-window.addEventListener("beforeunload", function(event) {
-  if (quillLastChange.length() > 0) {
-    return "Changes have not been saved yet. This will happen automatically in a moment. Are you sure you want to leave now and lose those changes?";
-  }
-});
+
