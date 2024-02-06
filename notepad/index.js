@@ -4,23 +4,21 @@ const {debounceTime} = rxjs.operators;
 const defaultTheme = "snow";
 
 const toolbarOptions = [
+  [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+
+  [{ 'font': [] }],
+  [{ 'size': ['small', false, 'large', 'huge'] }],  // font sizes
+  [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+
   ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+  [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
   ['blockquote', 'code-block'],
 
-  [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-  [{ 'size': ['small', false, 'large', 'huge'] }],  // font sizes
-
   [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-  [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
   [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
-  [{ 'direction': 'rtl' }],                         // text direction
-
-
-  [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
-  [{ 'font': [] }],
   [{ 'align': [] }],
 
-  ['link'],
+  ['link', 'formula', 'image', 'video'],
 
   ['clean'],                                        // remove formatting button
 ];
@@ -44,7 +42,7 @@ function makeQuill(theme){
   const quill = new Quill('#quill', {
     theme: theme,
     modules: {
-      //toolbar: toolbarOptions,
+      toolbar: toolbarOptions,
       imageResize: {
         displaySize: true
       }
