@@ -44,7 +44,7 @@ function makeQuill(theme){
   const quill = new Quill('#quill', {
     theme: theme,
     modules: {
-      toolbar: toolbarOptions,
+      //toolbar: toolbarOptions,
       imageResize: {
         displaySize: true
       }
