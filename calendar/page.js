@@ -296,6 +296,11 @@ class CalendarHandler {
     const [startType] = await colTypesFetcher.getColTypes();
     const startDate = getAdjustedDate(record.startDate, startType);
     this.calendar.setDate(startDate);
+
+    if (record.customOptions) {
+      this.calendar.setOptions(record.customOptions);
+    }
+    
     this._selectedRecordId = record.id;
     updateUIAfterNavigation();
 
@@ -474,6 +479,16 @@ function getGristOptions() {
       type: "Choice,ChoiceList",
       description: t("event category and style"),
       allowMultiple: false
+    },
+    // Accept custom calendar options, as a JSON string. For available options, refer to: https://github.com/nhn/tui.calendar/blob/main/docs/en/apis/options.md
+    {
+      name: "customOptions",
+      optional: true,
+      type: "Text",
+      strictType: true,
+      allowMultiple: false,
+      title: t("Custom Options"),
+      description: t("custom options object, as json"),
     }
   ];
 }
@@ -538,6 +553,12 @@ async function translatePage() {
 // When a user selects a record in the table, we want to select it on the calendar.
 function gristSelectedRecordChanged(record, mappings) {
   const mappedRecord = grist.mapColumnNames(record, mappings);
+  if ('customOptions' in mappedRecord) {
+    let customOptionsDecoded = safeParse(mappedRecord.customOptions);
+    if (customOptionsDecoded) {
+      mappedRecord.customOptions = customOptionsDecoded;
+    }
+  }
   if (mappedRecord && calendarHandler) {
     calendarHandler.selectRecord(mappedRecord);
   }
